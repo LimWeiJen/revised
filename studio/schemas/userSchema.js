@@ -18,8 +18,26 @@ export default {
 			title: 'cards',
 			type: 'array',
 			of: [{
-				type: 'reference',
-				to: [{type: 'card'}]
+				type: 'document',
+				name: 'card',
+				title: 'card',
+				fields: [
+					{
+						name: 'question',
+						title: 'question',
+						type: 'string'
+					},
+					{
+						name: 'answer',
+						title: 'answer',
+						type: 'string'
+					},
+					{
+						name: 'box',
+						title: 'box',
+						type: 'number'
+					},
+				]
 			}]
 		}
 	]

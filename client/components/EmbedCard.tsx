@@ -1,7 +1,7 @@
 import React from 'react'
 
-const EmbedCards = () => {
+const EmbedCard = () => {
 	return <div>EmbedCards</div>
 }
 
-export default EmbedCards
+export default EmbedCard

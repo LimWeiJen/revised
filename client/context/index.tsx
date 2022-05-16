@@ -24,12 +24,16 @@ const GlobalProvider = ({ children }: any) => {
 		localStorage.setItem('username', res[0].name);
 		localStorage.setItem('password', res[0].password);
 
+		console.log(res[0].cards)
+
 		setUsername(res[0].name)
 		setCards(res[0].cards)
 
 		let newBoxes: Array<Array<CardInterface>> = [[], [], [], [], []];
-		for (let card of res[0].cards) {
-			newBoxes[card.box].push(card);
+		if (res[0].cards) {
+			for (let card of res[0].cards) {
+				newBoxes[card.box].push(card);
+			}
 		}
 		setBoxes(newBoxes);
 
@@ -66,12 +70,24 @@ const GlobalProvider = ({ children }: any) => {
 
 	const deleteAccount = () => {}
 
-	const createCard = (card: CardInterface) => {}
+	const createEmptyCard = async () => {
+		let id = v4();
+
+		await client.patch(localStorage.getItem('id')!).setIfMissing({cards: []}).append('cards', [{
+			_type: 'card',
+			_id: id,
+			_key: id,
+			question: '',
+			answer: '',
+			box: 0
+		}]).commit();
+
+		await signIn(localStorage.getItem('username')!, localStorage.getItem('password')!)
+	}
 
 	const getAllCards = (): Array<CardInterface> => {return []}
 
 	const updateCard = (id: string, newCard: CardInterface) => {}
-
 
 	return <GlobalContext.Provider value={{
 		username,
@@ -90,7 +106,7 @@ const GlobalProvider = ({ children }: any) => {
 		signUp,
 		signOut,
 		deleteAccount,
-		createCard,
+		createEmptyCard,
 		getAllCards,
 		updateCard
 	}}>{children}</GlobalContext.Provider>

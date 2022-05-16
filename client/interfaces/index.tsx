@@ -17,7 +17,7 @@ export interface ContextInterface {
 	signUp: (username: string, password:string) => void,
 	signOut: () => void,
 	deleteAccount: () => void,
-	createCard: (card: CardInterface) => void,
+	createEmptyCard: () => void,
 	getAllCards: () => Array<CardInterface>,
 	updateCard: (id: string, newCard: CardInterface) => void
 }
@@ -25,8 +25,7 @@ export interface ContextInterface {
 export interface CardInterface {
 	id: string,
 	question: string,
-	category: string,
-	answer: Array<string>,
+	answer: string,
 	box: number
 }
 
