@@ -9,7 +9,9 @@ const Home: NextPage = () => {
 
 	return <div>
 		<Navbar />
-		{context?.username ? null : <Login />}
+		{context?.username ? <div>
+			
+		</div> : <Login />}
 	</div>
 }
 

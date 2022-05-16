@@ -38,12 +38,10 @@ describe('revised app', () => {
 
 		cy.get('#new-card-button').click()
 		cy.get('#card').should('exist').children().should('have.length', 4)
-		cy.get('#card>#category').type('Category A')
 		cy.get('#card>#question').type('lorem ipsum')
 		cy.get('#card>#answer').type('dolor sit amet')
 		cy.get('#card>#save-button').click()
 
-		cy.get('#card>#category').should('have.text', 'Category A')
 		cy.get('#card>#question').should('have.text', 'lorem ipsum')
 		cy.get('#card>#answer').should('have.text', 'dolor sit amet')
 		cy.get('#card>#box').should('have.text', '1')
@@ -68,33 +66,28 @@ describe('revised app', () => {
 		cy.get('#card>#tools-button').children().should('have.length', 2)
 		cy.get('#card>#tools-button>#edit-button').click()
 
-		cy.get('#card>#category').should('have.text', 'Category A')
 		cy.get('#card>#question').should('have.text', 'lorem ipsum')
 		cy.get('#card>#answer').should('have.text', 'dolor sit amet')
 		cy.get('#card>#box').should('have.text', '1')
 
-		cy.get('#card>#category').type('Category B')
 		cy.get('#card>#question').type('ipsum lorem')
 		cy.get('#card>#answer').type('dolor amet sit')
 		cy.get('#card>#save-button').click()
 
-		cy.get('#card>#category').should('have.text', 'Category B')
 		cy.get('#card>#question').should('have.text', 'ipsum lorem')
 		cy.get('#card>#answer').should('have.text', 'dolor amet sit')
 		cy.get('#card>#box').should('have.text', '1')
 	})
 	
-	it('should create a card with a new category', () => {
+	it('should create another card', () => {
 		cy.get('#new-card-button').click()
 		cy.get('#card').should('exist').children().should('have.length', 4)
-		cy.get('#card>#category').type('Category C')
-		cy.get('#card>#question').type('lorem ipsum')
-		cy.get('#card>#answer').type('dolor sit amet')
+		cy.get('#card>#question').type('lorem ipsum 2')
+		cy.get('#card>#answer').type('dolor sit amet 2')
 		cy.get('#card>#save-button').click()
 
-		cy.get('#card>#category').should('have.text', 'Category C')
-		cy.get('#card>#question').should('have.text', 'lorem ipsum')
-		cy.get('#card>#answer').should('have.text', 'dolor sit amet')
+		cy.get('#card>#question').should('have.text', 'lorem ipsum 2')
+		cy.get('#card>#answer').should('have.text', 'dolor sit amet 2')
 		cy.get('#card>#box').should('have.text', '1')
 	})
 
@@ -102,30 +95,22 @@ describe('revised app', () => {
 		cy.get('#dashboard').click()
 		cy.url().should('include', '/dashboard')
 
-		cy.get('#category-c').should('exist')
-		cy.get('#category-c-cards').children().should('have.length', 1)
-
-		cy.get('#category-b').should('exist')
-		cy.get('#category-b-cards').children().should('have.length', 1)
-
-		cy.get('#category-a').should('not.exist')
+		cy.get('#cards').children().should('have.length', 2)
 	})
 	
 	it('should delete all cards', () => {
 		cy.get('#home-button').click()
 		cy.url().should('include', '/')
 
-		cy.get('#card>#category').should('have.text', 'Category C')
 		cy.get('#card>#tools-button').click()
 		cy.get('#card>#tools-button').children().should('have.length', 2)
 		cy.get('#card>#tools-button>#delete-button').click()
 
-		cy.get('#card>#category').should('have.text', 'Category B')
 		cy.get('#card>#tools-button').click()
 		cy.get('#card>#tools-button').children().should('have.length', 2)
 		cy.get('#card>#tools-button>#delete-button').click()
 
-		cy.get('#card>#category').should('not.exist')
+		cy.get('#card').should('not.exist')
 	})
 	
 	it('should delete the account', () => {

@@ -19,12 +19,6 @@ export default {
 			title: 'password'
 		},
 		{
-			name: 'categories',
-			title: 'categories',
-			type: 'array',
-			of: [{type: 'string'}]
-		},
-		{
 			name: 'cards',
 			title: 'cards',
 			type: 'array',

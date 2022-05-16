@@ -14,11 +14,6 @@ export default {
 			type: 'string'
 		},
 		{
-			name: 'category',
-			title: 'category',
-			type: 'string'
-		},
-		{
 			name: 'answer',
 			title: 'answer',
 			type: 'array',

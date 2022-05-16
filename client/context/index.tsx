@@ -7,7 +7,6 @@ const GlobalProvider = ({ children }: any) => {
 	const [username, setUsername] = useState("");
 	const [cards, setCards] = useState<Array<CardInterface>>([]);
 	const [boxes, setBoxes] = useState<Array<number>>([]);
-	const [categories, setCategories] = useState<Array<string>>([]);
 	const [currCardIndex, setCurrCardIndex] = useState<number>(0);
 	const [currCard, setCurrCard] = useState<CardInterface>();
 
@@ -24,22 +23,18 @@ const GlobalProvider = ({ children }: any) => {
 
 	const getAllCards = (): Array<CardInterface> => {return []}
 
-	const getAllCategories = (): Array<string> => {return []}
-
 	const updateCard = (id: string, newCard: CardInterface) => {}
 
 	return <GlobalContext.Provider value={{
 		username,
 		cards,
 		boxes,
-		categories,
 		currCardIndex,
 		currCard,
 
 		setUsername,
 		setCards,
 		setBoxes,
-		setCategories,
 		setCurrCardIndex,
 		setCurrCard,
 
@@ -49,7 +44,6 @@ const GlobalProvider = ({ children }: any) => {
 		deleteAccount,
 		createCard,
 		getAllCards,
-		getAllCategories,
 		updateCard
 	}}>{children}</GlobalContext.Provider>
 }
