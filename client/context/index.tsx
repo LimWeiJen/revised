@@ -12,9 +12,9 @@ const GlobalProvider = ({ children }: any) => {
 	const [currCard, setCurrCard] = useState<CardInterface>();
 
 	////// FUNCTIONS //////
-	const signIn = () => {}
+	const signIn = (username: string, password: string) => {}
 
-	const signUp = () => {}
+	const signUp = (username: string, password:string) => {}
 
 	const signOut = () => {}
 
@@ -35,6 +35,14 @@ const GlobalProvider = ({ children }: any) => {
 		categories,
 		currCardIndex,
 		currCard,
+
+		setUsername,
+		setCards,
+		setBoxes,
+		setCategories,
+		setCurrCardIndex,
+		setCurrCard,
+
 		signIn,
 		signUp,
 		signOut,
