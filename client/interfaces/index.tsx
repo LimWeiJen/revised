@@ -3,13 +3,13 @@ import { Dispatch, SetStateAction } from "react"
 export interface ContextInterface {
 	username: string,
 	cards: Array<CardInterface>,
-	boxes: Array<number>,
+	boxes: Array<Array<CardInterface>>,
 	currCardIndex: number,
 	currCard: CardInterface | undefined,
 
 	setUsername: Dispatch<SetStateAction<string>>,
 	setCards: Dispatch<SetStateAction<Array<CardInterface>>>,
-	setBoxes: Dispatch<SetStateAction<Array<number>>>,
+	setBoxes: Dispatch<SetStateAction<Array<Array<CardInterface>>>>,
 	setCurrCardIndex: Dispatch<SetStateAction<number>>,
 	setCurrCard: Dispatch<SetStateAction<CardInterface | undefined>>,
 
@@ -28,4 +28,11 @@ export interface CardInterface {
 	category: string,
 	answer: Array<string>,
 	box: number
+}
+
+export interface UserInterface {
+	_id: string,
+	name: string,
+	password: string,
+	cards: Array<CardInterface>
 }

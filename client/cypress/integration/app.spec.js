@@ -10,6 +10,12 @@ describe('revised app', () => {
 	})
 
 	it('should sign out', () => {
+		cy.get('#name-display').should('have.text', 'Please Sign In or Sign Up')
+		cy.get('#name-input').type('John Doe')
+		cy.get('#password-input').type('password')
+		cy.get('#sign-in-button').click()
+		cy.get('#name-display').should('have.text', 'Welcome Back, John Doe')
+
 		cy.get('#name-display').should('have.text', 'Welcome Back, John Doe')
 		cy.get('#sign-out-button').click()
 		cy.get('#name-display').should('have.text', 'Please Sign In or Sign Up')

@@ -1,21 +1,68 @@
-import React, { useState } from 'react'
-import { CardInterface, ContextInterface } from '../interfaces';
+import React, { useEffect, useState } from 'react'
+import { CardInterface, ContextInterface, UserInterface } from '../interfaces';
+import { client } from '../lib';
+import { v4 } from 'uuid'
 
 export const GlobalContext = React.createContext<ContextInterface | null>(null);
 
 const GlobalProvider = ({ children }: any) => {
 	const [username, setUsername] = useState("");
 	const [cards, setCards] = useState<Array<CardInterface>>([]);
-	const [boxes, setBoxes] = useState<Array<number>>([]);
+	const [boxes, setBoxes] = useState<Array<Array<CardInterface>>>([[], [], [], [], []]);
 	const [currCardIndex, setCurrCardIndex] = useState<number>(0);
 	const [currCard, setCurrCard] = useState<CardInterface>();
 
 	////// FUNCTIONS //////
-	const signIn = (username: string, password: string) => {}
+	const signIn = async (username: string, password: string) => {
+		const res: Array<UserInterface> = await client.fetch(`
+			*[_type == "user" && name == "${username}" && password == "${password}"]
+		`);
 
-	const signUp = (username: string, password:string) => {}
+		if (res.length == 0) return alert('incorrect username or password');
 
-	const signOut = () => {}
+		localStorage.setItem('id', res[0]._id);
+		localStorage.setItem('username', res[0].name);
+		localStorage.setItem('password', res[0].password);
+
+		setUsername(res[0].name)
+		setCards(res[0].cards)
+
+		let newBoxes: Array<Array<CardInterface>> = [[], [], [], [], []];
+		for (let card of res[0].cards) {
+			newBoxes[card.box].push(card);
+		}
+		setBoxes(newBoxes);
+
+		setCurrCard(newBoxes[0][0]);
+	}
+
+	const signUp = async (username: string, password:string) => {
+		const id = v4();
+		
+		const newUserDoc = {
+			_type: 'user',
+			_id: id,
+			name: username,
+			password: password,
+			cards: []
+		}
+
+		localStorage.setItem('id', id);		
+		localStorage.setItem('username', username);
+		localStorage.setItem('password', password);
+
+		await client.createIfNotExists(newUserDoc);
+
+		location.href = '/'
+	}
+
+	const signOut = () => {
+		localStorage.removeItem('id');
+		localStorage.removeItem('username');
+		localStorage.removeItem('password');
+
+		location.href = '/'
+	}
 
 	const deleteAccount = () => {}
 
@@ -24,6 +71,7 @@ const GlobalProvider = ({ children }: any) => {
 	const getAllCards = (): Array<CardInterface> => {return []}
 
 	const updateCard = (id: string, newCard: CardInterface) => {}
+
 
 	return <GlobalContext.Provider value={{
 		username,
