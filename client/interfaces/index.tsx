@@ -19,14 +19,16 @@ export interface ContextInterface {
 	deleteAccount: () => void,
 	createEmptyCard: () => void,
 	getAllCards: () => Array<CardInterface>,
-	updateCard: (id: string, newCard: CardInterface) => void
+	updateCard: (newCard: CardInterface) => void
 }
 
 export interface CardInterface {
-	id: string,
 	question: string,
 	answer: string,
-	box: number
+	box: number,
+	_type: 'card',
+	_id: string,
+	_key: string
 }
 
 export interface UserInterface {

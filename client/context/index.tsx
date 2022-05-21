@@ -37,7 +37,12 @@ const GlobalProvider = ({ children }: any) => {
 		}
 		setBoxes(newBoxes);
 
-		setCurrCard(newBoxes[0][0]);
+		for (let box of newBoxes) {
+			if (box.length > 0) {
+				setCurrCard(box[0]);
+				break;
+			}
+		}
 	}
 
 	const signUp = async (username: string, password:string) => {
@@ -73,7 +78,7 @@ const GlobalProvider = ({ children }: any) => {
 	const createEmptyCard = async () => {
 		let id = v4();
 
-		await client.patch(localStorage.getItem('id')!).setIfMissing({cards: []}).append('cards', [{
+		await client.patch(localStorage.getItem('id')!).setIfMissing({cards: []}).prepend('cards', [{
 			_type: 'card',
 			_id: id,
 			_key: id,
@@ -87,7 +92,17 @@ const GlobalProvider = ({ children }: any) => {
 
 	const getAllCards = (): Array<CardInterface> => {return []}
 
-	const updateCard = (id: string, newCard: CardInterface) => {}
+	const updateCard = async (newCard: CardInterface) => {
+		for (let i = 0; i < cards.length; i++) {
+			if (cards[i]._id === JSON.parse(JSON.stringify(currCard))._id) {
+				let newCards = [...cards];
+				newCards[i] = newCard;
+				await client.patch(localStorage.getItem('id')!).set({cards: newCards}).commit();
+				await signIn(localStorage.getItem('username')!, localStorage.getItem('password')!)
+				return;
+			}
+		}
+	}
 
 	return <GlobalContext.Provider value={{
 		username,

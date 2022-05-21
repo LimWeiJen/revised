@@ -33,6 +33,9 @@ describe('revised app', () => {
 
 		cy.get('#new-card-button').click()
 		cy.get('#card').should('exist').children().should('have.length', 4)
+
+		cy.get('#edit-button').click()
+
 		cy.get('#card>#question').type('lorem ipsum')
 		cy.get('#card>#answer').type('dolor sit amet')
 		cy.get('#card>#save-button').click()
@@ -43,17 +46,17 @@ describe('revised app', () => {
 	})
 	
 	it('should answer the card correctly', () => {
-		cy.get('#card>#box').should('have.text', '1')
+		cy.get('#card>#box').should('have.text', '0')
 		cy.get('#card>#answer').type('dolor sit amet{enter}')
-		cy.get('#card>#box').should('have.text', '2')
+		cy.get('#card>#box').should('have.text', '1')
 	})
 	
 	it('should answer the card incorrectly', () => {
 		cy.get('#card>#answer-reveal').should('not.exist')
-		cy.get('#card>#box').should('have.text', '2')
+		cy.get('#card>#box').should('have.text', '1')
 		cy.get('#card>#answer').type('a wrong answer{enter}')
 		cy.get('#card>#answer-reveal').should('exist').should('have.text', 'dolor sit amet')
-		cy.get('#card>#box').should('have.text', '1')
+		cy.get('#card>#box').should('have.text', '0')
 	})
 	
 	it('should edit the card', () => {
