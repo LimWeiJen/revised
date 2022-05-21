@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { CardInterface, ContextInterface, UserInterface } from '../interfaces';
 import { client } from '../lib';
 import { v4 } from 'uuid'
