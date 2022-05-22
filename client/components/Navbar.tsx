@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { GlobalContext } from '../context'
 
 const Navbar = () => {
+	////// CONTEXT //////
 	const context = useContext(GlobalContext);
 
 	return <div>

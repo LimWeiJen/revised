@@ -3,40 +3,41 @@ import { GlobalContext } from '../context'
 import { CardInterface } from '../interfaces';
 
 const FlashCard = () => {
+	////// CONTEXT //////
 	const context = useContext(GlobalContext);
 
+	////// VARIABLES //////
 	const [isEditing, setIsEditing] = useState(false);
 	const [question, setQuestion] = useState(context?.currCard?.question!);
 	const [answer, setAnswer] = useState('');
 	const [ansReveal, setAnsReveal] = useState<React.ReactElement>();
 
+	////// FUNCTIONS //////
 	const save = () => {
-		const newCard: CardInterface = {
-			_id: context?.currCard?._id!,
-			_type: 'card',
-			_key: context?.currCard?._id!,
-			question: question,
-			answer: answer,
-			box: 0
-		}
-		context?.updateCard(newCard);
+
+		// update the question and the answer of the curr card
+		context!.currCard!.question = question;
+		context!.currCard!.answer = answer;
+		context?.updateCard(context?.currCard!);
 		setIsEditing(false);
 	}
 
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key !== 'Enter') return;
-		const newCard: CardInterface = {
-			_id: context?.currCard?._id!,
-			_type: 'card',
-			_key: context?.currCard?._id!,
-			question: context?.currCard?.question!,
-			answer: answer,
-			box: context?.currCard?.box! === 4 ? 0 : context?.currCard?.box! + 1
-		}
+
+		// create a copy of the curr card
+		const newCard = context?.currCard!;
+
+		// add one to the box index of the new card (assuming the user answered the card correctly)
+		newCard.box = context?.currCard?.box! === 4 ? 0 : context?.currCard?.box! + 1;
+
+		// if the user does not answer the card correctly
 		if (answer !== context?.currCard?.answer) {
+			// reveal the actual answer
 			setAnsReveal(<div id='answer-reveal'>{context?.currCard?.answer}</div>);
+
+			// set the box index of the new card to 0
 			newCard.box = 0;
-			newCard.answer = context?.currCard?.answer!;
 		}
 		context?.updateCard(newCard);
 	}

@@ -6,9 +6,12 @@ import Navbar from '../components/Navbar'
 import { GlobalContext } from '../context'
 
 const Home: NextPage = () => {
+	////// CONTEXT //////
 	const context = useContext(GlobalContext);
 
+	////// USE EFFECTS //////
 	useEffect(() => {
+		// authenticate the user
 		if (localStorage.getItem('id') !== null) {
 			context?.signIn(localStorage.getItem('username')!, localStorage.getItem('password')!, false)
 		}

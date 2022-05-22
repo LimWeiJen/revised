@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { GlobalContext } from '../context'
 
 const Login = () => {
+	////// VARIABLES //////
 	const context = useContext(GlobalContext)
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");

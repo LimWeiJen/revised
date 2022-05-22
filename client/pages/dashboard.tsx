@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import { GlobalContext } from '../context'
 
 const Dashboard = () => {
+	////// CONTEXT //////
 	const context = useContext(GlobalContext);
 
 	return <div>
