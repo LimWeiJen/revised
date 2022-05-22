@@ -31,7 +31,7 @@ const FlashCard = () => {
 			_key: context?.currCard?._id!,
 			question: context?.currCard?.question!,
 			answer: answer,
-			box: context?.currCard?.box! + 1
+			box: context?.currCard?.box! === 4 ? 0 : context?.currCard?.box! + 1
 		}
 		if (answer !== context?.currCard?.answer) {
 			setAnsReveal(<div id='answer-reveal'>{context?.currCard?.answer}</div>);

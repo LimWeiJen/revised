@@ -10,7 +10,7 @@ const Home: NextPage = () => {
 
 	useEffect(() => {
 		if (localStorage.getItem('id') !== null) {
-			context?.signIn(localStorage.getItem('username')!, localStorage.getItem('password')!)
+			context?.signIn(localStorage.getItem('username')!, localStorage.getItem('password')!, false)
 		}
 	}, [])
 

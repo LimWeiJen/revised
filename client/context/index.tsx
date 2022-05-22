@@ -9,22 +9,22 @@ const GlobalProvider = ({ children }: any) => {
 	const [username, setUsername] = useState("");
 	const [cards, setCards] = useState<Array<CardInterface>>([]);
 	const [boxes, setBoxes] = useState<Array<Array<CardInterface>>>([[], [], [], [], []]);
-	const [currCardIndex, setCurrCardIndex] = useState<number>(0);
 	const [currCard, setCurrCard] = useState<CardInterface>();
 
 	////// FUNCTIONS //////
-	const signIn = async (username: string, password: string) => {
+	const signIn = async (username: string, password: string, showPopUp = true) => {
 		const res: Array<UserInterface> = await client.fetch(`
 			*[_type == "user" && name == "${username}" && password == "${password}"]
 		`);
 
-		if (res.length == 0) return alert('incorrect username or password');
+		if (res.length == 0) {
+			if (showPopUp) return alert('incorrect username or password');
+			return;
+		}
 
 		localStorage.setItem('id', res[0]._id);
 		localStorage.setItem('username', res[0].name);
 		localStorage.setItem('password', res[0].password);
-
-		console.log(res[0].cards)
 
 		setUsername(res[0].name)
 		setCards(res[0].cards)
@@ -117,18 +117,19 @@ const GlobalProvider = ({ children }: any) => {
 		location.reload();
 	}
 
+	const resetCard = async () => {
+		let newCards = [...cards];
+		for (let i = 0; i < newCards.length; i++) newCards[i].box = 0;
+		await client.patch(localStorage.getItem('id')!).set({cards: newCards}).commit();
+		await signIn(localStorage.getItem('username')!, localStorage.getItem('password')!);
+		location.reload();
+	}
+
 	return <GlobalContext.Provider value={{
 		username,
 		cards,
 		boxes,
-		currCardIndex,
 		currCard,
-
-		setUsername,
-		setCards,
-		setBoxes,
-		setCurrCardIndex,
-		setCurrCard,
 
 		signIn,
 		signUp,
@@ -136,7 +137,8 @@ const GlobalProvider = ({ children }: any) => {
 		deleteAccount,
 		createEmptyCard,
 		deleteCard,
-		updateCard
+		updateCard,
+		resetCard
 	}}>{children}</GlobalContext.Provider>
 }
 
