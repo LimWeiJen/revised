@@ -73,7 +73,15 @@ const GlobalProvider = ({ children }: any) => {
 		location.href = '/'
 	}
 
-	const deleteAccount = () => {}
+	const deleteAccount = async () => {
+		if (confirm('Are you sure you want to delete your account?')) {
+			await client.delete(localStorage.getItem('id')!)	
+			localStorage.removeItem('id');
+			localStorage.removeItem('username');
+			localStorage.removeItem('password');
+			location.reload();
+		}
+	}
 
 	const createEmptyCard = async () => {
 		let id = v4();
