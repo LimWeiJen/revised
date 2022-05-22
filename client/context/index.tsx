@@ -90,8 +90,6 @@ const GlobalProvider = ({ children }: any) => {
 		await signIn(localStorage.getItem('username')!, localStorage.getItem('password')!)
 	}
 
-	const getAllCards = (): Array<CardInterface> => {return []}
-
 	const updateCard = async (newCard: CardInterface) => {
 		for (let i = 0; i < cards.length; i++) {
 			if (cards[i]._id === JSON.parse(JSON.stringify(currCard))._id) {
@@ -102,6 +100,13 @@ const GlobalProvider = ({ children }: any) => {
 				return;
 			}
 		}
+	}
+
+	const deleteCard = async () => {
+		let newCards = [...cards].filter(card => card._id !== currCard?._id)
+		await client.patch(localStorage.getItem('id')!).set({cards: newCards}).commit();
+		await signIn(localStorage.getItem('username')!, localStorage.getItem('password')!);
+		location.reload();
 	}
 
 	return <GlobalContext.Provider value={{
@@ -122,7 +127,7 @@ const GlobalProvider = ({ children }: any) => {
 		signOut,
 		deleteAccount,
 		createEmptyCard,
-		getAllCards,
+		deleteCard,
 		updateCard
 	}}>{children}</GlobalContext.Provider>
 }

@@ -44,6 +44,7 @@ const FlashCard = () => {
 	return <div>{context?.currCard ? <div id='card'>
 		<input id='question' type='text' disabled={!isEditing} onChange={(e) => setQuestion(e.target.value)} value={question || context?.currCard?.question!} />
 		<input id='answer' type='text' placeholder={isEditing ? context.currCard.answer: ''} onKeyDown={(e) => handleKeyDown(e)} onChange={(e) => setAnswer(e.target.value)} />
+		{isEditing ? <button id='delete-button' onClick={context.deleteCard}>Delete Button</button> : null}
 		{isEditing ? 
 		<button id='save-button' onClick={save}>Save Button</button> : 
 		<button id='edit-button' onClick={() => setIsEditing(!isEditing)}>{isEditing ? 'Cancel Editing' : 'Edit Button'}</button>}

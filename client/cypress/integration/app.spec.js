@@ -99,19 +99,16 @@ describe('revised app', () => {
 		cy.url().should('include', '/dashboard')
 
 		cy.get('#cards').children().should('have.length', 2)
+
+		cy.get('#home-button').click()
+		cy.url().should('include', '/')
 	})
 	
 	it('should delete all cards', () => {
-		cy.get('#home-button').click()
-		cy.url().should('include', '/')
-
-		cy.get('#card>#tools-button').click()
-		cy.get('#card>#tools-button').children().should('have.length', 2)
-		cy.get('#card>#tools-button>#delete-button').click()
-
-		cy.get('#card>#tools-button').click()
-		cy.get('#card>#tools-button').children().should('have.length', 2)
-		cy.get('#card>#tools-button>#delete-button').click()
+		for (let i = 0; i < 2; i++) {
+			cy.get('#card>#edit-button').click()
+			cy.get('#card>#delete-button').should('exist').click()
+		}
 
 		cy.get('#card').should('not.exist')
 	})

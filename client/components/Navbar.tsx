@@ -6,11 +6,11 @@ const Navbar = () => {
 	const context = useContext(GlobalContext);
 
 	return <div>
-		<div id='home-button'>Website Logo</div>
+		<Link href='/'><h1 id='home-button'>Website Logo</h1></Link>
 		<div id='name-display'>{context?.username ? `Welcome Back, ${context.username}` : 'Please Sign In or Sign Up'}</div>
-		<Link href='/dashboard' id='dashboard'>Dashboard Button</Link>
+		<Link href='/dashboard'><h1 id='dashboard'>Dashboard Button</h1></Link>
 		<button id='sign-out-button' onClick={context?.signOut}>Sign Out Button</button>
-		<div id='delete-account-button'>Delete Account Button</div>
+		<div id='delete-account-button' onClick={context?.deleteAccount}>Delete Account Button</div>
 	</div>
 }
 

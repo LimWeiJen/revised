@@ -18,7 +18,7 @@ export interface ContextInterface {
 	signOut: () => void,
 	deleteAccount: () => void,
 	createEmptyCard: () => void,
-	getAllCards: () => Array<CardInterface>,
+	deleteCard: () => void,
 	updateCard: (newCard: CardInterface) => void
 }
 
