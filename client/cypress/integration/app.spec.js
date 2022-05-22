@@ -60,33 +60,38 @@ describe('revised app', () => {
 	})
 	
 	it('should edit the card', () => {
-		cy.get('#card>#tools-button').click()
-		cy.get('#card>#tools-button').children().should('have.length', 2)
-		cy.get('#card>#tools-button>#edit-button').click()
+		cy.get('#card>#edit-button').click()
 
-		cy.get('#card>#question').should('have.text', 'lorem ipsum')
-		cy.get('#card>#answer').should('have.text', 'dolor sit amet')
-		cy.get('#card>#box').should('have.text', '1')
+		cy.get('#card>#question').should('have.value', 'lorem ipsum')
+		cy.get('#card>#answer').should('have.attr', 'placeholder', 'dolor sit amet')
+		cy.get('#card>#box').should('have.text', '0')
 
+		cy.get('#card>#question').invoke('val', '')
 		cy.get('#card>#question').type('ipsum lorem')
 		cy.get('#card>#answer').type('dolor amet sit')
 		cy.get('#card>#save-button').click()
 
-		cy.get('#card>#question').should('have.text', 'ipsum lorem')
-		cy.get('#card>#answer').should('have.text', 'dolor amet sit')
-		cy.get('#card>#box').should('have.text', '1')
+		cy.get('#card>#question').should('have.value', 'ipsum lorem')
+		cy.get('#card>#answer').should('have.value', 'dolor amet sit')
+		cy.get('#card>#box').should('have.text', '0')
 	})
 	
 	it('should create another card', () => {
 		cy.get('#new-card-button').click()
 		cy.get('#card').should('exist').children().should('have.length', 4)
+		cy.get('#card>#question').should('have.value', '')
+		cy.get('#card>#answer').should('have.value', '')
+		cy.get('#card>#box').should('have.text', '0')
+		
+		cy.get('#edit-button').click()
+		
 		cy.get('#card>#question').type('lorem ipsum 2')
 		cy.get('#card>#answer').type('dolor sit amet 2')
 		cy.get('#card>#save-button').click()
 
-		cy.get('#card>#question').should('have.text', 'lorem ipsum 2')
-		cy.get('#card>#answer').should('have.text', 'dolor sit amet 2')
-		cy.get('#card>#box').should('have.text', '1')
+		cy.get('#card>#question').should('have.value', 'lorem ipsum 2')
+		cy.get('#card>#answer').should('have.value', 'dolor sit amet 2')
+		cy.get('#card>#box').should('have.text', '0')
 	})
 
 	it('should check the dashboard', () => {
