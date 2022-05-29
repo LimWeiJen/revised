@@ -103,6 +103,19 @@ describe('revised app', () => {
 		cy.get('#home-button').click()
 		cy.url().should('include', '/')
 	})
+
+	it('should reset the cards', () => {
+		cy.get('#dashboard').click()
+		cy.url().should('include', '/dashboard')
+
+		cy.get('#cards').children().should('have.length', 2)
+
+		cy.get('#reset-button').click()
+
+		cy.get('#cards').children().each(($el, index, $list) => {
+			expect($el.find('#box').text()).to.equal('0')
+		})
+	})
 	
 	it('should delete all cards', () => {
 		for (let i = 0; i < 2; i++) {
@@ -115,8 +128,6 @@ describe('revised app', () => {
 	
 	it('should delete the account', () => {
 		cy.get('#delete-account-button').click()
-		cy.get(':nth-child(2) > button').click()
-		cy.get('#name-display').should('have.text', 'Please Sign In or Sign Up')
 	})
 	
 })

@@ -9,6 +9,7 @@ const Dashboard = () => {
 
 	return <div>
 		<Navbar />
+		<button id='reset-button' onClick={context?.resetCard}>Reset Button</button>
 		<div id='cards'>
 			{context?.cards.map((card, index) => <div key={index}>
 				<EmbedCard card={card} />
