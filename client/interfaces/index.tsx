@@ -1,9 +1,9 @@
 export interface ContextInterface {
 	username: string,
 	cards: Array<CardInterface>,
-	boxes: Array<Array<CardInterface>>,
 	currCard: CardInterface | undefined,
-
+	isEditingCard: boolean,
+	setIsEditingCard: (isEditingCard: boolean) => void,
 	signIn: (username: string, password: string, showPopUp?: boolean) => void,
 	signUp: (username: string, password: string) => void,
 	signOut: () => void,

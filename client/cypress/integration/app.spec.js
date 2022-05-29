@@ -32,9 +32,7 @@ describe('revised app', () => {
 		cy.get('#card').should('not.exist')
 
 		cy.get('#new-card-button').click()
-		cy.get('#card').should('exist').children().should('have.length', 4)
-
-		cy.get('#edit-button').click()
+		cy.get('#card').should('exist').children().should('have.length', 5)
 
 		cy.get('#card>#question').type('lorem ipsum')
 		cy.get('#card>#answer').type('dolor sit amet')
@@ -78,12 +76,10 @@ describe('revised app', () => {
 	
 	it('should create another card', () => {
 		cy.get('#new-card-button').click()
-		cy.get('#card').should('exist').children().should('have.length', 4)
+		cy.get('#card').should('exist').children().should('have.length', 5)
 		cy.get('#card>#question').should('have.value', '')
 		cy.get('#card>#answer').should('have.value', '')
 		cy.get('#card>#box').should('have.text', '0')
-		
-		cy.get('#edit-button').click()
 		
 		cy.get('#card>#question').type('lorem ipsum 2')
 		cy.get('#card>#answer').type('dolor sit amet 2')
@@ -129,5 +125,4 @@ describe('revised app', () => {
 	it('should delete the account', () => {
 		cy.get('#delete-account-button').click()
 	})
-	
 })

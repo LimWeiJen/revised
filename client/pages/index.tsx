@@ -1,9 +1,11 @@
 import type { NextPage } from 'next'
+import Image from 'next/image'
 import { useContext, useEffect } from 'react'
 import FlashCard from '../components/Flashcard'
 import Login from '../components/Login'
 import Navbar from '../components/Navbar'
 import { GlobalContext } from '../context'
+import addIcon from '../public/icons/add_FILL0_wght400_GRAD0_opsz48.svg'
 
 const Home: NextPage = () => {
 	////// CONTEXT //////
@@ -19,10 +21,15 @@ const Home: NextPage = () => {
 
 	return <div>
 		<Navbar />
-		{context?.username ? <div>
+		{context?.username ? <div className='grid place-items-center h-screen'>
 			<FlashCard />
-			<button id='new-card-button' onClick={context?.createEmptyCard}>New Card Button</button>
-		</div> : <Login />}
+			<div className='absolute bottom-0 right-0 m-5 transition-all hover:scale-110 hover:cursor-pointer'>
+				<Image id='new-card-button' className='bg-primary-red rounded-full' onClick={context?.createEmptyCard} src={addIcon} />
+			</div>
+		</div> : 
+		<div className='grid place-items-center h-screen'>
+			<Login />
+		</div>}
 	</div>
 }
 

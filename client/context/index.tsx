@@ -9,8 +9,8 @@ const GlobalProvider = ({ children }: any) => {
 	////// VARIABLES //////
 	const [username, setUsername] = useState("");
 	const [cards, setCards] = useState<Array<CardInterface>>([]);
-	const [boxes, setBoxes] = useState<Array<Array<CardInterface>>>([[], [], [], [], []]);
 	const [currCard, setCurrCard] = useState<CardInterface>();
+	const [isEditingCard, setIsEditingCard] = useState(false);
 
 	////// FUNCTIONS //////
 	const signIn = async (username: string, password: string, showPopUp = true) => {
@@ -36,28 +36,8 @@ const GlobalProvider = ({ children }: any) => {
 		// update the username
 		setUsername(user.name)
 
-		// update the cards of the user
-		setCards(user.cards)
-
-		// update the boxes
-		let newBoxes: Array<Array<CardInterface>> = [[], [], [], [], []];
-		if (user.cards) {
-
-			// iterate through all the cards of the user
-			// if the user's card has the box index of 0, put it in the 0th box, if the user's card has the box index of 1, put it in the 1st box, and so on
-			for (let card of user.cards) {
-				newBoxes[card.box].push(card);
-			}
-		}
-		setBoxes(newBoxes);
-
-		// update currCard to the first card of the first non-empty box
-		for (let box of newBoxes) {
-			if (box.length > 0) {
-				setCurrCard(box[0]);
-				break;
-			}
-		}
+		// update the cards
+		_updateCardsInClient(user.cards);
 	}
 
 	const signUp = async (username: string, password:string) => {
@@ -115,22 +95,26 @@ const GlobalProvider = ({ children }: any) => {
 	}
 
 	const createEmptyCard = async () => {
-
 		// get a new unique id for the card
 		let id = v4();
 
-		// update the user's cards in the database
-		await client.patch(localStorage.getItem('id')!).setIfMissing({cards: []}).prepend('cards', [{
+		// initialize the card doc
+		const newCard: CardInterface = {
 			_type: 'card',
 			_id: id,
 			_key: id,
 			question: '',
 			answer: '',
 			box: 0
-		}]).commit();
+		}
 
-		// sign in again to refresh the page
-		await signIn(localStorage.getItem('username')!, localStorage.getItem('password')!, false)
+		// update the user's cards in the database
+		await client.patch(localStorage.getItem('id')!).setIfMissing({cards: []}).prepend('cards', [newCard]).commit();
+
+		// update the cards
+		_updateCardsInClient([newCard, ...cards]);
+
+		setIsEditingCard(true);
 	}
 
 	const updateCard = async (newCard: CardInterface) => {
@@ -146,8 +130,10 @@ const GlobalProvider = ({ children }: any) => {
 				newCards[i] = newCard;
 				await client.patch(localStorage.getItem('id')!).set({cards: newCards}).commit();
 				
-				// sign in again to refresh the page
-				await signIn(localStorage.getItem('username')!, localStorage.getItem('password')!)
+				// update the cards
+				_updateCardsInClient(newCards);
+
+				setIsEditingCard(false);
 				return;
 			}
 		}
@@ -156,13 +142,15 @@ const GlobalProvider = ({ children }: any) => {
 	const deleteCard = async () => {
 		
 		// filter out the card that has the id of the curr card
-		let newCards = [...cards].filter(card => card._id !== currCard?._id)
+		const newCards = [...cards].filter(card => card._id !== currCard?._id)
 
 		// update the cards of the user in the database
 		await client.patch(localStorage.getItem('id')!).set({cards: newCards}).commit();
 		
-		// reload the page
-		location.reload();
+		// update the cards
+		_updateCardsInClient(newCards);
+
+		setIsEditingCard(false);
 	}
 
 	const resetCard = async () => {
@@ -176,16 +164,24 @@ const GlobalProvider = ({ children }: any) => {
 		// update the cards of the user in the database
 		await client.patch(localStorage.getItem('id')!).set({cards: newCards}).commit();
 
-		// reload the page
-		location.reload();
+		// update the cards
+		_updateCardsInClient(newCards);
+	}
+
+	////// PRIVATE FUNCTIONS //////
+	const _updateCardsInClient = (newCards: Array<CardInterface>) => {
+		if (!newCards) return;
+		newCards.sort((a: CardInterface, b: CardInterface) => a.box - b.box)
+		setCards(newCards);
+		setCurrCard(newCards[0]);
 	}
 
 	return <GlobalContext.Provider value={{
 		username,
 		cards,
-		boxes,
 		currCard,
-
+		isEditingCard,
+		setIsEditingCard,
 		signIn,
 		signUp,
 		signOut,
