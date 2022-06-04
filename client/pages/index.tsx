@@ -20,15 +20,20 @@ const Home: NextPage = () => {
 	}, [])
 
 	return <div>
-		<Navbar />
-		{context?.username ? <div className='grid place-items-center h-screen'>
-			<FlashCard />
-			<div className='absolute bottom-0 right-0 m-5 transition-all hover:scale-110 hover:cursor-pointer'>
-				<Image id='new-card-button' className='bg-primary-red rounded-full' onClick={context?.createEmptyCard} src={addIcon} />
+		{context?.username ? <div>
+			<Navbar />
+			<div className='grid place-items-center h-screen'>
+				<FlashCard />
 			</div>
 		</div> : 
-		<div className='grid place-items-center h-screen'>
-			<Login />
+		<div className='h-screen grid place-items-center text-white'>
+			<div className='flex flex-col justify-center'>
+				<div className='font-thin text-center'>@revised</div>
+				<div className='font-bold text-7xl text-center mt-2'>Revised</div>
+				<div className='font-thin text-lg text-center mb-6'>Never Too Late To Study</div>
+				<Login />
+			</div>
+			<h1 className='font-thin absolute bottom-4'>created by @limweijen ^_^</h1>
 		</div>}
 	</div>
 }

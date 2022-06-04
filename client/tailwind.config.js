@@ -5,10 +5,10 @@ module.exports = {
   ],
   theme: {
     colors: {
-      'primary-red': '#B20600',
-      'secondary-red': '#EB5353',
-      'primary-green': '#36AE7C',
-      'primary-white': '#EEEEEE'
+      'white': '#fff',
+      'black': '#000',
+      'red': '#EB5353',
+      'dark-red': '#C34040',
     },
   },
   plugins: [],

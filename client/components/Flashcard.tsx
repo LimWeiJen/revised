@@ -1,9 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { GlobalContext } from '../context'
-import deleteIcon from '../public/icons/delete_FILL0_wght400_GRAD0_opsz48.svg'
-import saveIcon from '../public/icons/save_FILL0_wght400_GRAD0_opsz48.svg'
-import editIcon from '../public/icons/edit_note_FILL1_wght400_GRAD0_opsz48.svg'
-import Image from 'next/image'
 
 const FlashCard = () => {
 	////// CONTEXT //////
@@ -45,16 +41,21 @@ const FlashCard = () => {
 
 	return <div>
 		{context?.currCard ? 
-		<div className='bg-primary-red shadow-2xl rounded-lg flex flex-col justify-center p-5 w-[40rem] h-[20rem]' id='card'>
-			<textarea className={`${context.isEditingCard ? 'bg-secondary-red text-primary-red' : 'bg-primary-red text-primary-white'}  p-1 outline-none border-none`} id='question' disabled={!context.isEditingCard} onChange={(e) => setQuestion(e.target.value)} value={question || context?.currCard?.question!} />
-			<input className='bg-secondary-red text-primary-red rounded-lg p-1 outline-none border-none' id='answer' type='text' placeholder={context.isEditingCard ? context.currCard.answer: ''} onKeyDown={(e) => handleKeyDown(e)} onChange={(e) => setAnswer(e.target.value)} />
-			{context.isEditingCard ? <div className='mx-1 hover:cursor-pointer'><Image width={30} height={30} className='rounded-full transition-all hover:bg-secondary-red' src={deleteIcon} id='delete-button' onClick={context.deleteCard} /></div> : null}
-			{context.isEditingCard ? 
-			<div className='mx-1 hover:cursor-pointer'><Image src={saveIcon} id='save-button' width={30} height={30} className='rounded-full transition-all hover:bg-secondary-red' onClick={save} /></div> : 
-			<div className='mx-1 hover:cursor-pointer'><Image src={editIcon} id='edit-button' width={30} height={30} className='rounded-full transition-all hover:bg-secondary-red' onClick={() => context.setIsEditingCard(!context.isEditingCard)} /></div>}
-			<div id='box' className='text-primary-white'>{context.currCard?.box}</div>
+		<div className='flex flex-col justify-center p-5 w-[40rem] h-[20rem]' id='card'>
+			<div id='box' className='text-white text-2xl font-semibold'>Box #{context.currCard?.box}</div>
+			<textarea className={`${context.isEditingCard ? 'text-black bg-dark-red' : 'text-white bg-red'} font-light p-1 outline-none border-none`} id='question' disabled={!context.isEditingCard} onChange={(e) => setQuestion(e.target.value)} value={question || context?.currCard?.question!} />
+			<input className='bg-dark-red my-5 rounded-lg p-1 py-2 outline-none border-none text-white' id='answer' type='text' placeholder={context.isEditingCard ? context.currCard.answer: ''} onKeyDown={(e) => handleKeyDown(e)} onChange={(e) => setAnswer(e.target.value)} />
+			<div className='flex justify-evenly'>
+				{context.isEditingCard ? <div id='delete-button' className='mx-1 hover:cursor-pointer bg-dark-red px-8 py-2 font-bold rounded-full text-white' onClick={context.deleteCard}>Delete</div> : null}
+				{context.isEditingCard ? 
+				<div id='save-button' className='mx-1 hover:cursor-pointer bg-white px-8 py-2 font-bold rounded-full' onClick={save}>Save</div> : 
+				<div id='edit-button' className='mx-1 hover:cursor-pointer bg-white px-8 py-2 font-bold rounded-full' onClick={() => context.setIsEditingCard(true)}>Edit</div>}
+				<div id='new-card-button' className='mx-1 hover:cursor-pointer bg-dark-red px-8 py-2 font-bold rounded-full text-white' onClick={context.createEmptyCard}>New</div>
+			</div>
 			{ansReveal}
-		</div> : null}
+		</div> : <div>
+			<div className='mx-1 hover:cursor-pointer bg-white px-8 py-2 font-bold rounded-full' onClick={context?.createEmptyCard}>Let's start by creating a new flashcard!</div>
+		</div>}
 	</div>
 }
 

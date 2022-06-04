@@ -11,13 +11,16 @@ const Navbar = () => {
 	////// CONTEXT //////
 	const context = useContext(GlobalContext);
 
-	return <div className='bg-secondary-red flex justify-between shadow-2xl p-5 absolute w-screen'>
-		<div className='mx-1 transition-all hover:scale-110 hover:cursor-pointer'><Link href='/'><Image className='bg-primary-red rounded-full' id='dashboard' src={websiteLogo} /></Link></div>
-		<div id='name-display' className='text-primary-red h-10 flex flex-col justify-center text-2xl font-bold'>{context?.username ? `Welcome Back, ${context.username}` : 'Please Sign In or Sign Up'}</div>
+	return <div className='flex justify-center p-5 absolute w-screen'>
+		<div>
+			<div id='name-display' className='text-white flex flex-col justify-center text-xl'>{context?.username}</div>
+			<div id='gmail-display' className='text-white flex flex-col justify-center font-thin opacity-80 text-sm'>johndoe@gmail.com</div>
+		</div>
 		<div className='flex'>
 			<div className='mx-1 transition-all hover:scale-110 hover:cursor-pointer'><Link href='/dashboard'><Image className='bg-primary-red rounded-full' id='dashboard' src={dashboardIcon} /></Link></div>
 			<div className='mx-1 transition-all hover:scale-110 hover:cursor-pointer'><Image className='bg-primary-red rounded-full' id='sign-out-button' onClick={context?.signOut} src={logOutIcon} /></div>
 			<div className='mx-1 transition-all hover:scale-110 hover:cursor-pointer'><Image className='bg-primary-red rounded-full' id='delete-account-button' onClick={context?.deleteAccount} src={deleteAccountIcon} /></div>
+			<div className='mx-1 transition-all hover:scale-110 hover:cursor-pointer'><Link href='/'><Image className='bg-primary-red rounded-full' id='dashboard' src={websiteLogo} /></Link></div>
 		</div>
 	</div>
 }
