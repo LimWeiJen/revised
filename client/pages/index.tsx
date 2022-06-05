@@ -28,7 +28,7 @@ const Home: NextPage = () => {
 			<div className='flex flex-col justify-center'>
 				<div className='font-thin text-center'>@revised</div>
 				<div className='font-bold text-7xl text-center mt-2'>Revised</div>
-				<div className='font-thin text-lg text-center mb-6'>Never Too Late To Study</div>
+				<div className='font-thin lg:text-lg text-center mb-6'>Never Too Late To Study</div>
 				<Login />
 			</div>
 			<h1 className='font-thin absolute bottom-4'>created by @limweijen ^_^</h1>

@@ -41,7 +41,7 @@ const FlashCard = () => {
 
 	return <div>
 		{context?.currCard ? 
-		<div className='flex flex-col justify-center p-5 w-[40rem] h-[20rem]' id='card'>
+		<div className='flex flex-col justify-center p-5 lg:w-[40rem] h-[20rem]' id='card'>
 			<div id='box' className='text-white text-2xl font-semibold'>Box #{context.currCard?.box}</div>
 			<textarea className={`${context.isEditingCard ? 'text-black bg-dark-red' : 'text-white bg-red'} font-light p-1 outline-none border-none`} id='question' disabled={!context.isEditingCard} onChange={(e) => setQuestion(e.target.value)} value={question || context?.currCard?.question!} />
 			<input className='bg-dark-red my-5 rounded-lg p-1 py-2 outline-none border-none text-white' id='answer' type='text' placeholder={context.isEditingCard ? context.currCard.answer: ''} onKeyDown={(e) => handleKeyDown(e)} onChange={(e) => setAnswer(e.target.value)} />
