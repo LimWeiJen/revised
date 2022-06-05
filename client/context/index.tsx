@@ -160,12 +160,23 @@ const GlobalProvider = ({ children }: any) => {
 
 		// set each of the card's box index to 0
 		for (let i = 0; i < newCards.length; i++) newCards[i].box = 0;
+
+		// randomize the array
+		newCards = newCards.sort(() => Math.random() - 0.5);
 		
 		// update the cards of the user in the database
 		await client.patch(localStorage.getItem('id')!).set({cards: newCards}).commit();
 
 		// update the cards
 		_updateCardsInClient(newCards);
+	}
+
+	const deleteAllCards = async () => {
+		// update the cards of the user in the database
+		await client.patch(localStorage.getItem('id')!).set({cards: []}).commit();
+
+		// update the cards
+		_updateCardsInClient([]);
 	}
 
 	////// PRIVATE FUNCTIONS //////
@@ -189,7 +200,8 @@ const GlobalProvider = ({ children }: any) => {
 		createEmptyCard,
 		deleteCard,
 		updateCard,
-		resetCard
+		resetCard,
+		deleteAllCards
 	}}>{children}</GlobalContext.Provider>
 }
 

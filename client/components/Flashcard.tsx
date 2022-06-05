@@ -46,15 +46,17 @@ const FlashCard = () => {
 			<textarea className={`${context.isEditingCard ? 'text-black bg-dark-red' : 'text-white bg-red'} font-light p-1 outline-none border-none`} id='question' disabled={!context.isEditingCard} onChange={(e) => setQuestion(e.target.value)} value={question || context?.currCard?.question!} />
 			<input className='bg-dark-red my-5 rounded-lg p-1 py-2 outline-none border-none text-white' id='answer' type='text' placeholder={context.isEditingCard ? context.currCard.answer: ''} onKeyDown={(e) => handleKeyDown(e)} onChange={(e) => setAnswer(e.target.value)} />
 			<div className='flex justify-evenly'>
-				{context.isEditingCard ? <div id='delete-button' className='mx-1 hover:cursor-pointer bg-dark-red px-8 py-2 font-bold rounded-full text-white' onClick={context.deleteCard}>Delete</div> : null}
+				{context.isEditingCard ? <div id='delete-button' className='mx-1 transition-all hover:scale-110 hover:shadow-xl hover:cursor-pointer bg-dark-red px-8 py-2 font-bold rounded-full text-white' onClick={context.deleteCard}>Delete</div> : null}
 				{context.isEditingCard ? 
-				<div id='save-button' className='mx-1 hover:cursor-pointer bg-white px-8 py-2 font-bold rounded-full' onClick={save}>Save</div> : 
-				<div id='edit-button' className='mx-1 hover:cursor-pointer bg-white px-8 py-2 font-bold rounded-full' onClick={() => context.setIsEditingCard(true)}>Edit</div>}
-				<div id='new-card-button' className='mx-1 hover:cursor-pointer bg-dark-red px-8 py-2 font-bold rounded-full text-white' onClick={context.createEmptyCard}>New</div>
+				<button id='save-button' className='mx-1 hover:cursor-pointer transition-all hover:scale-110 hover:shadow-xl bg-white px-8 py-2 font-bold rounded-full' onClick={save}>Save</button> : 
+				<button id='edit-button' className='mx-1 hover:cursor-pointer transition-all hover:scale-110 hover:shadow-xl bg-white px-8 py-2 font-bold rounded-full' onClick={() => context.setIsEditingCard(true)}>Edit</button>}
+				<button id='new-card-button' className='mx-1 hover:cursor-pointer transition-all hover:scale-110 hover:shadow-xl bg-dark-red px-8 py-2 font-bold rounded-full text-white' onClick={context.createEmptyCard}>New</button>
 			</div>
-			{ansReveal}
+			<div className='text-white font-light opacity-80'>
+				{ansReveal}
+			</div>
 		</div> : <div>
-			<div className='mx-1 hover:cursor-pointer bg-white px-8 py-2 font-bold rounded-full' onClick={context?.createEmptyCard}>Let's start by creating a new flashcard!</div>
+			<div className='mx-1 transition-all hover:scale-110 hover:shadow-xl hover:cursor-pointer bg-white px-8 py-2 font-bold rounded-full' id='new-card-button' onClick={context?.createEmptyCard}>Let's start by creating a new flashcard!</div>
 		</div>}
 	</div>
 }

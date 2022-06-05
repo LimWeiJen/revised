@@ -11,7 +11,8 @@ export interface ContextInterface {
 	createEmptyCard: () => void,
 	deleteCard: () => void,
 	updateCard: (newCard: CardInterface) => void,
-	resetCard: () => void
+	resetCard: () => void,
+	deleteAllCards: () => void
 }
 
 export interface CardInterface {

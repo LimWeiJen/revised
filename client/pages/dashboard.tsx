@@ -9,11 +9,11 @@ const Dashboard = () => {
 
 	return <div>
 		<Navbar />
-		<div className='grid place-items-center h-screen'>
+		<div className='grid place-items-center h-screen pt-20'>
 			<div>
 				<div className='flex justify-center'>
-					<button className='mx-1 hover:cursor-pointer bg-dark-red text-white px-8 py-2 font-bold rounded-full' id='reset-button' onClick={context?.resetCard}>Reset All</button>
-					<button className='mx-1 hover:cursor-pointer bg-dark-red text-white px-8 py-2 font-bold rounded-full' id='delete-all-button'>Delete All</button>
+					<button className='mx-1 hover:cursor-pointer transition-all hover:scale-110 hover:shadow-xl bg-dark-red text-white px-8 py-2 font-bold rounded-full' id='reset-button' onClick={context?.resetCard}>Reset All</button>
+					<button className='mx-1 hover:cursor-pointer transition-all hover:scale-110 hover:shadow-xl bg-dark-red text-white px-8 py-2 font-bold rounded-full' id='delete-all-button' onClick={context?.deleteAllCards}>Delete All</button>
 				</div>
 				<div id='cards' className='grid grid-cols-2'>
 					{context?.cards.map((card, index) => <div key={index}>

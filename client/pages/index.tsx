@@ -1,11 +1,9 @@
 import type { NextPage } from 'next'
-import Image from 'next/image'
 import { useContext, useEffect } from 'react'
 import FlashCard from '../components/Flashcard'
 import Login from '../components/Login'
 import Navbar from '../components/Navbar'
 import { GlobalContext } from '../context'
-import addIcon from '../public/icons/add_FILL0_wght400_GRAD0_opsz48.svg'
 
 const Home: NextPage = () => {
 	////// CONTEXT //////
