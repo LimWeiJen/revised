@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import { useContext, useEffect } from 'react'
 import FlashCard from '../components/Flashcard'
 import Login from '../components/Login'
@@ -18,6 +19,9 @@ const Home: NextPage = () => {
 	}, [])
 
 	return <div>
+		<Head>
+			<title>Revised</title>
+		</Head>
 		{context?.username ? <div>
 			<Navbar />
 			<div className='grid place-items-center h-screen'>
