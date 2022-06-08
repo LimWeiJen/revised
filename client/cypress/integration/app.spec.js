@@ -27,73 +27,38 @@ describe('revised app', () => {
 		})
 	})
 	
-	it('should create a new card', () => {
-		cy.get('#card').should('not.exist')
+	it('should handle card creation, edition and deletion', () => {
+		for (let i = 0; i < 5; i++) {
+			cy.get('#new-card-button').click();
+			cy.get('#card').children().should('have.length', 5);
+			cy.get('#box').should('have.text', 'Box #0');
+			cy.get('#question').should('have.value', '');
+			cy.get('#answer').should('have.value', '');
+			cy.get('#question').type(`Question ${i}`);
+			cy.get('#answer').type(`Answer ${i}`);
+			cy.get('#save-button').click();
+			cy.get('#question').should('be.disabled');
+		}
 
-		cy.get('#new-card-button').click()
-		cy.get('#card').should('exist').children().should('have.length', 5)
-
-		cy.get('#question').type('lorem ipsum')
-		cy.get('#answer').type('dolor sit amet')
-		cy.get('#save-button').click()
-
-		cy.get('#question').should('have.value', 'lorem ipsum')
-		cy.get('#answer').should('have.value', 'dolor sit amet')
-		cy.get('#box').should('have.text', 'Box #0')
-	})
-	
-	it('should answer the card correctly', () => {
-		cy.get('#box').should('have.text', 'Box #0')
-		cy.get('#answer').type('dolor sit amet{enter}')
-		cy.get('#box').should('have.text', 'Box #1')
-	})
-	
-	it('should answer the card incorrectly', () => {
-		cy.get('#answer-reveal').should('not.exist')
-		cy.get('#box').should('have.text', 'Box #1')
-		cy.get('#answer').type('a wrong answer{enter}')
-		cy.get('#answer-reveal').should('exist').should('have.text', 'dolor sit amet')
-		cy.get('#box').should('have.text', 'Box #0')
-	})
-	
-	it('should edit the card', () => {
-		cy.get('#edit-button').click()
-
-		cy.get('#question').should('have.value', 'lorem ipsum')
-		cy.get('#answer').should('have.attr', 'placeholder', 'dolor sit amet')
-		cy.get('#box').should('have.text', 'Box #0')
-
-		cy.get('#question').invoke('val', '')
-		cy.get('#question').type('ipsum lorem')
-		cy.get('#answer').type('dolor amet sit')
-		cy.get('#save-button').click()
-
-		cy.get('#question').should('have.value', 'ipsum lorem')
-		cy.get('#answer').should('have.value', 'dolor amet sit')
-		cy.get('#box').should('have.text', 'Box #0')
-	})
-	
-	it('should create another card', () => {
-		cy.get('#new-card-button').click()
-		cy.get('#card').should('exist').children().should('have.length', 5)
-		cy.get('#question').should('have.value', '')
-		cy.get('#answer').should('have.value', '')
-		cy.get('#box').should('have.text', 'Box #0')
-		
-		cy.get('#question').type('lorem ipsum 2')
-		cy.get('#answer').type('dolor sit amet 2')
-		cy.get('#save-button').click()
-
-		cy.get('#question').should('have.value', 'lorem ipsum 2')
-		cy.get('#answer').should('have.value', 'dolor sit amet 2')
-		cy.get('#box').should('have.text', 'Box #0')
+		for (let i = 4; i >= 0; i--) {
+			cy.get('#answer').should('have.value', `Answer ${i}`);
+			cy.get('#question').should('have.value', `Question ${i}`);
+			cy.get(`#edit-button`).click();
+			cy.get('#question').invoke('val', '');
+			cy.get('#question').type(`Question ${5+i}`);
+			cy.get('#save-button').click();
+			cy.get('#question').should('be.disabled');
+			cy.get('#question').should('have.value', `Question ${5+i}`);
+			cy.get('#answer').type(`Answer ${i}{enter}`);
+			cy.get('#question').should('have.value', `Question ${i-1}`);
+		}
 	})
 
 	it('should check the dashboard', () => {
 		cy.get('#dashboard').click()
 		cy.url().should('include', '/dashboard')
 
-		cy.get('#cards').children().should('have.length', 2)
+		cy.get('#cards').children().should('have.length', 5)
 
 		cy.get('#home-button').click()
 		cy.url().should('include', '/')
@@ -103,7 +68,7 @@ describe('revised app', () => {
 		cy.get('#dashboard').click()
 		cy.url().should('include', '/dashboard')
 
-		cy.get('#cards').children().should('have.length', 2)
+		cy.get('#cards').children().should('have.length', 5)
 
 		cy.get('#reset-button').click()
 
@@ -113,15 +78,11 @@ describe('revised app', () => {
 	})
 	
 	it('should delete all cards', () => {
-		for (let i = 0; i < 2; i++) {
+		for (let i = 0; i < 5; i++) {
 			cy.get('#card>#edit-button').click()
 			cy.get('#card>#delete-button').should('exist').click()
 		}
 
 		cy.get('#card').should('not.exist')
-	})
-	
-	it('should delete the account', () => {
-		cy.get('#delete-account-button').click()
 	})
 })
