@@ -27,7 +27,7 @@ describe('revised app', () => {
 		})
 	})
 	
-	it('should handle card creation, edition and deletion', () => {
+	it('should handle card creation and edition', () => {
 		for (let i = 0; i < 5; i++) {
 			cy.get('#new-card-button').click();
 			cy.get('#card').children().should('have.length', 5);
@@ -57,7 +57,9 @@ describe('revised app', () => {
 		cy.get('#dashboard').click()
 		cy.url().should('include', '/dashboard')
 
-		cy.get('#cards').children().should('have.length', 5)
+		cy.get('#cards').children().should('have.length', 5).each(($el, index, $list) => {
+			expect($el.find('#box').text()).to.equal('Box #1');
+		})
 
 		cy.get('#home-button').click()
 		cy.url().should('include', '/')
