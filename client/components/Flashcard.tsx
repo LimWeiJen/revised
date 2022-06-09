@@ -16,9 +16,10 @@ const FlashCard = () => {
 		context!.currCard!.question = question;
 		context!.currCard!.answer = answer;
 		context?.updateCard(context?.currCard!);
+		location.reload();
 	}
 
-	const handleKeyDown = (e: React.KeyboardEvent) => {
+	const handleKeyDown = async (e: React.KeyboardEvent) => {
 		if (e.key !== 'Enter') return;
 
 		// create a copy of the curr card

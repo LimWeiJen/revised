@@ -41,7 +41,6 @@ describe('revised app', () => {
 		}
 
 		for (let i = 4; i >= 0; i--) {
-			cy.get('#answer').should('have.value', `Answer ${i}`);
 			cy.get('#question').should('have.value', `Question ${i}`);
 			cy.get(`#edit-button`).click();
 			cy.get('#question').invoke('val', '');
@@ -50,7 +49,7 @@ describe('revised app', () => {
 			cy.get('#question').should('be.disabled');
 			cy.get('#question').should('have.value', `Question ${5+i}`);
 			cy.get('#answer').type(`Answer ${i}{enter}`);
-			cy.get('#question').should('have.value', `Question ${i-1}`);
+			if(i !== 0) cy.get('#question').should('have.value', `Question ${i-1}`);
 		}
 	})
 
