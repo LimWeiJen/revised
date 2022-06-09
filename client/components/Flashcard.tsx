@@ -16,7 +16,7 @@ const FlashCard = () => {
 		context!.currCard!.question = question;
 		context!.currCard!.answer = answer;
 		context?.updateCard(context?.currCard!);
-		location.reload();
+		setAnswer('');
 	}
 
 	const handleKeyDown = async (e: React.KeyboardEvent) => {
